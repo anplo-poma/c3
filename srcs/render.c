@@ -1,16 +1,59 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.c                                           :+:      :+:    :+:   */
+/*   render_pre.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xueyan_wang <xueyan_wang@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/27 22:32:34 by xueyan_wang       #+#    #+#             */
-/*   Updated: 2026/03/27 22:42:35 by xueyan_wang      ###   ########.fr       */
+/*   Created: 2026/03/27 16:46:56 by xueyan_wang       #+#    #+#             */
+/*   Updated: 2026/03/27 23:00:35 by xueyan_wang      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+
+void    calcu_wall_dist(t_ray *ray)
+{
+	if (ray->side == 0)
+		ray->wall_dist = ray->sidedist_x - ray->deltadist_x;
+	else
+		ray->wall_dist = ray->sidedist_y - ray->deltadist_y;
+}
+
+void    calcu_wall_height(t_ray *ray, int screen_height)
+{
+	ray->line_height = (int)(screen_height / ray->wall_dist);
+	ray->draw_start = -ray->line_height / 2 + screen_height / 2;
+	if (ray->draw_start < 0)
+		ray->draw_start = 0;
+	ray->draw_end = ray->line_height / 2 + screen_height / 2;
+	if (ray->draw_end >= screen_height)
+		ray->draw_end = screen_height - 1;
+}
+
+void	put_pixel(t_img *img, int x, int y, int color)
+{
+	char	*pixel;
+
+	pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
+	*(unsigned int *)pixel = color;
+}
+
+void    draw_column(t_img *img, t_ray *ray, t_game *game, int x)
+{
+	int y;
+
+	//ceiling
+	y = 0;
+	while (y < ray->draw_start)
+		put_pixel(img, x, y++, game->map.ceiling_color);
+	//wall without texture
+	while (y <= ray->draw_end)
+		put_pixel(img, x, y++, ray->side == 1 ? 0xAAAAAA : 0xFFFFFF);
+	//floor
+	while (y < game->screen_height)
+		put_pixel(img, x, y++, game->map.floor_color);
+}
 
 void    render_frame(t_game *game)
 {
@@ -22,9 +65,9 @@ void    render_frame(t_game *game)
 	{
 		ray.map_x = (int)game->player.player_x;
 		ray.map_y = (int)game->player.player_y;
-		find_wall(&ray, &game->player, game->map, x, game->screen_width);
+		find_wall(&ray, &game->player, game->map.matrix, x, game->screen_width);
 		calcu_wall_dist(&ray);
-		calcu_line_height(&ray, game->screen_height);
+		calcu_wall_height(&ray, game->screen_height);
 		draw_column(&game->img, &ray, game, x);
 		x++;
 	}

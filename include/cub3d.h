@@ -6,23 +6,40 @@
 /*   By: xueyan_wang <xueyan_wang@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 16:17:04 by xueyan_wang       #+#    #+#             */
-/*   Updated: 2026/03/27 22:38:23 by xueyan_wang      ###   ########.fr       */
+/*   Updated: 2026/03/27 23:32:29 by xueyan_wang      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-//#include "mlx.h"
+# include "mlx.h"
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>
 # include <unistd.h>
 # include <math.h>
+# include <X11/keysym.h>
 # include "../get_next_line/get_next_line.h"
 # include "../libft/libft.h"
 # include "../ft_printf/ft_printf.h"
+# include <X11/keysym.h>
+
+# define KEY_W      119
+# define KEY_A      97
+# define KEY_S      115
+# define KEY_D      100
+# define KEY_ESC    65307
+
+# define SCREEN_W 	1280
+# define SCREEN_H 	720
+
+#define MOVESPEED 0.05
+
+
+
+
 
 typedef	struct s_mapdata{
 	char	*no_texture;
@@ -88,6 +105,8 @@ typedef struct s_player
 
 typedef struct s_game
 {
+	int 		move_x;  // A=-1, D=1, not move=0
+	int 		move_y;  // W=1, S=-1, not move=0
 	void		*mlx;
 	void		*win;
 	int			screen_height;

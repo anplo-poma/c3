@@ -6,27 +6,51 @@
 /*   By: xueyan_wang <xueyan_wang@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 16:05:18 by xueyan_wang       #+#    #+#             */
-/*   Updated: 2026/03/27 18:53:09 by xueyan_wang      ###   ########.fr       */
+/*   Updated: 2026/03/27 23:20:18 by xueyan_wang      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-/*
-int	main(int ac, char** av)
+
+
+static void	init_mlx(t_game *game)
 {
-	t_data	cub;
-	
-	if (ac != 2)
-		return ("error msg");
-	cub.mlx = mlx_init(&cub);
-	check_map(av[1], cub);
-	cub.win = mlx_new_window();
-	init_all(cub);
-	mlx_hook();
-	mlx_loop_hook(render_map());
-	mlx_loop();
+	game->mlx = mlx_init();
+	if (!game->mlx)
+	{
+		ft_printf("Error: mlx_init failed\n");
+		exit(1);
+	}
+	game->win = mlx_new_window(game->mlx, game->screen_width,
+			game->screen_height, "cub3D");
+	if (!game->win)
+	{
+		ft_printf("Error: mlx_new_window failed\n");
+		exit(1);
+	}
+	game->img.img_ptr = mlx_new_image(game->mlx,
+			game->screen_width, game->screen_height);
+	game->img.addr = mlx_get_data_addr(game->img.img_ptr,
+			&game->img.bpp, &game->img.line_len, &game->img.endian);
 }
-*/
+
+int	main(int ac, char **av)
+{
+	t_game	game;
+
+	if (ac != 2)
+	{
+		ft_printf("Error\nUsage: ./cub3D <map.cub>\n");
+		return (1);
+	}
+	init_game(&game);
+	check_map(av[1], &game);
+	init_mlx(&game);
+	setup_hooks(&game);
+	mlx_loop(game.mlx);
+	return (0);
+}
+
 /*
 int	main(int ac, char** av)
 {
@@ -34,18 +58,4 @@ int	main(int ac, char** av)
 		return ("error msg");
 	open
 }
-*/
-
-
-/*
-顺序：
-parse + validate    → 确认文件完全合法
-    ↓
-mlx_init()          → 创建 mlx
-    ↓
-load textures        → mlx_xpm_file_to_image
-    ↓
-game loop
-
-
 */
