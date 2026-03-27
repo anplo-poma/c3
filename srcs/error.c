@@ -6,7 +6,7 @@
 /*   By: xueyan_wang <xueyan_wang@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/27 16:50:31 by xueyan_wang       #+#    #+#             */
-/*   Updated: 2026/03/27 16:52:15 by xueyan_wang      ###   ########.fr       */
+/*   Updated: 2026/03/27 22:02:06 by xueyan_wang      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 int	ft_error(const char *errmsg)
 {
 	//ft_free_all();
-	ft_printf(errmsg);
+	//ft_printf(errmsg);
 	exit(1);
 }

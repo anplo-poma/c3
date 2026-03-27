@@ -6,7 +6,7 @@
 /*   By: xueyan_wang <xueyan_wang@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 17:19:38 by xueyan_wang       #+#    #+#             */
-/*   Updated: 2026/03/27 21:36:44 by xueyan_wang      ###   ########.fr       */
+/*   Updated: 2026/03/27 22:17:16 by xueyan_wang      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	read_six_surface_to_struct(t_mapdata *mapdata, char *line)
 		ft_error("unknown identifier");
 }
 
-/*just read map info into struct*/
+/*just read map info into long str*/
 void	read_cub_file(const char *filename, t_mapdata *mapdata)
 {
 	int		fd;
@@ -108,7 +108,7 @@ void    parse_cub(const char *filename, t_mapdata *mapdata)
     read_cub_file(filename, mapdata);
 	build_matrix(mapdata);
 	pad_matrix_rows(mapdata);
-    validate_map(mapdata);
+    validate_map(mapdata);//later
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: xueyan_wang <xueyan_wang@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 16:17:04 by xueyan_wang       #+#    #+#             */
-/*   Updated: 2026/03/27 21:16:59 by xueyan_wang      ###   ########.fr       */
+/*   Updated: 2026/03/27 22:38:23 by xueyan_wang      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,6 @@
 # include "../libft/libft.h"
 # include "../ft_printf/ft_printf.h"
 
-
-typedef struct s_data{
-	
-}t_data;
-
-typedef struct s_img{
-	
-}t_img;
-
 typedef	struct s_mapdata{
 	char	*no_texture;
 	char	*so_texture;
@@ -47,8 +38,14 @@ typedef	struct s_mapdata{
 	char	**matrix;
 }t_mapdata;
 
-
-
+typedef struct s_img
+{
+    void    *img_ptr;
+    char    *addr;
+    int     bpp;//normally 32
+    int     line_len;//bit per line
+    int     endian;//bit order
+}t_img;
 
 //LINNA PART//
 /***************************************************************** */
@@ -89,13 +86,17 @@ typedef struct s_player
 /******************************************************************** */
 //LINNA PART END//
 
-
-
-
-typedef struct s_cub
+typedef struct s_game
 {
-	
-}t_cub;
+	void		*mlx;
+	void		*win;
+	int			screen_height;
+	int			screen_width;
+	t_mapdata	map;
+	t_ray		ray;
+	t_player	player;
+	t_img		img;
+}t_game;
 
 
 #endif
