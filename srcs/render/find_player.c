@@ -6,7 +6,7 @@
 /*   By: xueyan_wang <xueyan_wang@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/27 23:26:10 by xueyan_wang       #+#    #+#             */
-/*   Updated: 2026/03/27 23:30:41 by xueyan_wang      ###   ########.fr       */
+/*   Updated: 2026/03/27 23:53:24 by xueyan_wang      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	set_player_dir(t_player *player, char dir)
 		set_dir(player, -1, 0, 0, -0.66);
 }
 
-void	find_player_spawn(t_game *game)
+void	find_player_location(t_game *game)
 {
 	int		y;
 	int		x;

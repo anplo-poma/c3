@@ -6,7 +6,7 @@
 /*   By: xueyan_wang <xueyan_wang@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 17:19:38 by xueyan_wang       #+#    #+#             */
-/*   Updated: 2026/03/27 22:17:16 by xueyan_wang      ###   ########.fr       */
+/*   Updated: 2026/03/28 01:14:12 by xueyan_wang      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,62 @@ void	read_six_surface_to_struct(t_mapdata *mapdata, char *line)
 		ft_error("unknown identifier");
 }
 
+void	read_cub_file(const char *filename, t_mapdata *mapdata)
+{
+	int		fd;
+	char	*line;
+	int		map_start;
+
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		ft_error("cannot open file");
+	map_start = 0;
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		if (handle_empty_line(line, map_start))
+		{
+			free(line);
+			continue;
+		}
+		if (!map_start && is_map_line(line))
+			map_start = 1;
+		if (map_start)
+			read_map_to_str(mapdata, line);
+		else
+			read_six_surface_to_struct(mapdata, line);
+		free(line);
+	}
+	close(fd);
+}
+
+int	check_map_extension(const char *filename)
+{
+	//int	len;
+	const char	*ext;
+
+	if (!filename)
+		return (0);
+	ext = ft_strrchr(filename, '.');
+	if (!ext || ft_strncmp(ext, ".cub", 5))
+		return (0);
+	if (ext == filename || *(ext -1) == '/')
+		return (0);
+	return (1);
+}
+
+void	parse_cub(const char *filename, t_mapdata *mapdata)
+{
+	if (!check_map_extension(filename))
+		ft_error("invalid file extension");
+	read_cub_file(filename, mapdata);
+	build_matrix(mapdata);
+	pad_matrix_rows(mapdata);
+	validate_map(mapdata);
+}
+
+//no free version 
 /*just read map info into long str*/
+/*
 void	read_cub_file(const char *filename, t_mapdata *mapdata)
 {
 	int		fd;
@@ -85,33 +140,25 @@ void	read_cub_file(const char *filename, t_mapdata *mapdata)
 	}
 	close(fd);
 }
+*/
 
-int	check_map_extension(const char *filename)
+//  test map
+/*
+void	debug_matrix(t_mapdata *mapdata)
 {
-	int	len;
-	const char	*ext;
+	int	i;
 
-	if (!filename)
-		return (0);
-	ext = ft_strrchr(filename, '.');
-	if (!ext || ft_strcmp(ext, ".cub"))
-		return (0);
-	if (ext == filename || *(ext -1) == '/')
-		return (0);
-	return (1);
+	i = 0;
+	write(1, "=== matrix ===\n", 15);
+	while (mapdata->matrix[i])
+	{
+		write(1, mapdata->matrix[i], ft_strlen(mapdata->matrix[i]));
+		write(1, "\n", 1);
+		i++;
+	}
+	write(1, "=== end ===\n", 12);
 }
-
-void    parse_cub(const char *filename, t_mapdata *mapdata)
-{
-	if (!check_map_extension(filename))
-		ft_error("invalid file extension");
-    read_cub_file(filename, mapdata);
-	build_matrix(mapdata);
-	pad_matrix_rows(mapdata);
-    validate_map(mapdata);//later
-}
-
-
+*/
 /*
 void	texture_load_checking()
 {

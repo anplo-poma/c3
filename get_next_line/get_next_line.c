@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xuewang <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: xueyan_wang <xueyan_wang@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 21:03:03 by xuewang           #+#    #+#             */
-/*   Updated: 2025/06/02 19:30:26 by xuewang          ###   ########.fr       */
+/*   Updated: 2026/03/28 01:05:43 by xueyan_wang      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,18 +118,24 @@ char	*get_next_line(int fd)
 	char		*storage;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	//if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (ft_free(NULL, &restbuf));
 	storage = save_from_buffer(fd, restbuf);
 	if (!storage)
 		return (ft_free(NULL, &restbuf));
 	if (storage[0] == '\0')
 	{
-		ft_free(&storage, &restbuf);
-		return (NULL);
+		free(storage);//cnahge
+    	restbuf = NULL;//change
+    	return (NULL);//change
+		//ft_free(&storage, &restbuf);
+		//return (NULL);
 	}
 	line = storage_to_output(storage);
 	restbuf = cut_after_slashn(storage);
+	if (!restbuf)//add
+    	restbuf = ft_strdup("");//add
 	free(storage);
 	return (line);
 }

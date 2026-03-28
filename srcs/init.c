@@ -6,7 +6,7 @@
 /*   By: xueyan_wang <xueyan_wang@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 16:47:10 by xueyan_wang       #+#    #+#             */
-/*   Updated: 2026/03/27 23:22:54 by xueyan_wang      ###   ########.fr       */
+/*   Updated: 2026/03/28 00:29:47 by xueyan_wang      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	init_mapdata(t_mapdata *map)
 	map->ceiling_color = 0;
 	map->rows = 0;
 	map->cols = 0;
-	map->raw_str = NULL;
+	map->raw_str = ft_strdup("");   // new version ori NULL
 	map->raw_lines = NULL;
 	map->matrix = NULL;
 }

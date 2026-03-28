@@ -6,7 +6,7 @@
 /*   By: xueyan_wang <xueyan_wang@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/27 19:31:54 by xueyan_wang       #+#    #+#             */
-/*   Updated: 2026/03/27 22:17:31 by xueyan_wang      ###   ########.fr       */
+/*   Updated: 2026/03/28 01:13:31 by xueyan_wang      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	read_map_to_str(t_mapdata *mapdata, char* line)
     mapdata->raw_str = ft_strjoin(mapdata->raw_str, line);
     free(tmp);
 }
+
 
 void build_matrix(t_mapdata *mapdata)
 {
@@ -64,5 +65,8 @@ void	pad_matrix_rows(t_mapdata *mapdata)
 	mapdata->matrix[mapdata->rows] = NULL;
 }
 
+void	validate_map(t_mapdata *mapdata)
+{
+	(void)mapdata;
+}
 
-//validate_map

@@ -6,7 +6,7 @@
 /*   By: xueyan_wang <xueyan_wang@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 16:05:18 by xueyan_wang       #+#    #+#             */
-/*   Updated: 2026/03/27 23:20:18 by xueyan_wang      ###   ########.fr       */
+/*   Updated: 2026/03/28 00:42:46 by xueyan_wang      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,13 @@ static void	init_mlx(t_game *game)
 	game->mlx = mlx_init();
 	if (!game->mlx)
 	{
-		ft_printf("Error: mlx_init failed\n");
-		exit(1);
+		ft_error("Error: mlx_init failed\n");
 	}
 	game->win = mlx_new_window(game->mlx, game->screen_width,
 			game->screen_height, "cub3D");
 	if (!game->win)
 	{
-		ft_printf("Error: mlx_new_window failed\n");
-		exit(1);
+		ft_error("Error: mlx_new_window failed\n");
 	}
 	game->img.img_ptr = mlx_new_image(game->mlx,
 			game->screen_width, game->screen_height);
@@ -40,11 +38,14 @@ int	main(int ac, char **av)
 
 	if (ac != 2)
 	{
-		ft_printf("Error\nUsage: ./cub3D <map.cub>\n");
+		ft_printf("Error: Usage: ./cub3D <map.cub>\n");
 		return (1);
 	}
 	init_game(&game);
-	check_map(av[1], &game);
+	parse_cub(av[1], &game.map);
+	find_player_location(&game);
+	//debug_matrix(&game.map);//check map
+	//check_map(av[1], &game);
 	init_mlx(&game);
 	setup_hooks(&game);
 	mlx_loop(game.mlx);

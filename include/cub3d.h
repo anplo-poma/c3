@@ -6,7 +6,7 @@
 /*   By: xueyan_wang <xueyan_wang@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 16:17:04 by xueyan_wang       #+#    #+#             */
-/*   Updated: 2026/03/27 23:32:29 by xueyan_wang      ###   ########.fr       */
+/*   Updated: 2026/03/28 01:11:37 by xueyan_wang      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include "../libft/libft.h"
 # include "../ft_printf/ft_printf.h"
 # include <X11/keysym.h>
+# include <X11/X.h>
 
 # define KEY_W      119
 # define KEY_A      97
@@ -36,9 +37,6 @@
 # define SCREEN_H 	720
 
 #define MOVESPEED 0.05
-
-
-
 
 
 typedef	struct s_mapdata{
@@ -116,6 +114,96 @@ typedef struct s_game
 	t_player	player;
 	t_img		img;
 }t_game;
+
+
+
+/* ============================================================ */
+/*  srcs/init.c                                                 */
+/* ============================================================ */
+void	init_game(t_game *game);
+
+/* ============================================================ */
+/*  srcs/main.c  (init_mlx 是 static，不需要声明)               */
+/* ============================================================ */
+
+/* ============================================================ */
+/*  srcs/hook.c                                                 */
+/* ============================================================ */
+int		key_press(int keycode, t_game *game);
+int		key_release(int keycode, t_game *game);
+int		close_window(t_game *game);
+void	setup_hooks(t_game *game);
+
+/* ============================================================ */
+/*  srcs/find_wall.c                                            */
+/* ============================================================ */
+void	calcu_camera_x(t_ray *ray, int x, int screen_width);
+void	calcu_ray_dir(t_ray *ray, t_player *player);
+void	calcu_deltadist(t_ray *ray);
+void	calcu_sidedist(t_ray *ray, t_player *player);
+void	init_step(t_ray *ray);
+void	dda_hit_wall(t_ray *ray, int hit, char **map);
+void	find_wall(t_ray *ray, t_player *player, char **map,
+			int x, int screen_width);
+
+/* ============================================================ */
+/*  srcs/render.c                                               */
+/* ============================================================ */
+void	calcu_wall_dist(t_ray *ray);
+void	calcu_wall_height(t_ray *ray, int screen_height);
+void	put_pixel(t_img *img, int x, int y, int color);
+void	draw_column(t_img *img, t_ray *ray, t_game *game, int x);
+void	render_frame(t_game *game);
+
+/* ============================================================ */
+/*  srcs/player_move.c                                          */
+/* ============================================================ */
+void	move_player(t_game *game);
+
+/* ============================================================ */
+/*  srcs/find_player.c                                          */
+/* ============================================================ */
+void	set_player_dir(t_player *player, char dir);
+void	find_player_location(t_game *game);
+
+/* ============================================================ */
+/*  srcs/exit/error.c                                           */
+/* ============================================================ */
+int		ft_error(const char *errmsg);
+
+/* ============================================================ */
+/*  srcs/exit/free.c                                            */
+/* ============================================================ */
+void	ft_free_all(void);
+void	ft_free_matrix(char **matrix);
+
+/* ============================================================ */
+/*  srcs/parsing/check_cub_file.c                               */
+/* ============================================================ */
+void	read_six_surface_to_struct(t_mapdata *mapdata, char *line);
+void	read_cub_file(const char *filename, t_mapdata *mapdata);
+int		check_map_extension(const char *filename);
+void	parse_cub(const char *filename, t_mapdata *mapdata);
+//void	debug_matrix(t_mapdata *mapdata);
+/* ============================================================ */
+/*  srcs/parsing/check_map.c                                    */
+/* ============================================================ */
+void	read_map_to_str(t_mapdata *mapdata, char *line);
+void	build_matrix(t_mapdata *mapdata);
+void	pad_matrix_rows(t_mapdata *mapdata);
+void	validate_map(t_mapdata *mapdata);       //later
+
+/* ============================================================ */
+/*  srcs/parsing/parsing_toolbox.c                              */
+/* ============================================================ */
+char	*skip_spaces(char *str);
+int		handle_empty_line(char *line, int map_start);
+int		is_all_digits(char *str);
+void	ft_cub_strlcpy(char *dst, const char *src, size_t dest_siz);
+char	*trim_newline(char *s);
+int		is_empty_line(char *line);             /* 被调用但未见定义，需要你补 */
+int		is_map_line(char *line);               /* 同上 */
+
 
 
 #endif

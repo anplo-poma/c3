@@ -1,24 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   move.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: xueyan_wang <xueyan_wang@student.42.fr>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/27 23:03:30 by xueyan_wang       #+#    #+#             */
-/*   Updated: 2026/03/27 23:05:15 by xueyan_wang      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
 /*   player_move.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xueyan_wang <xueyan_wang@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/27 by xueyan_wang             #+#    #+#               */
-/*   Updated: 2026/03/27 by xueyan_wang             ###   ########.fr        */
+/*   Created: 2026/03/27 23:03:30 by xueyan_wang       #+#    #+#             */
+/*   Updated: 2026/03/28 00:41:44 by xueyan_wang      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +71,7 @@ static void	move_right(t_game *game)
 		game->player.player_y = new_y;
 }
 
+
 void	move_player(t_game *game)
 {
 	if (game->move_y == 1)
@@ -90,7 +79,8 @@ void	move_player(t_game *game)
 	if (game->move_y == -1)
 		move_backward(game);
 	if (game->move_x == -1)
-		move_left(game);
-	if (game->move_x == 1)
 		move_right(game);
+	if (game->move_x == 1)
+		move_left(game);
 }
+	
